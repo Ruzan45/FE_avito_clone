@@ -1,0 +1,62 @@
+@import "./variables.scss";
+
+.index-sticky-block {
+    margin-bottom: 30px;
+
+    .sticky-contain {
+        padding-bottom: 7px;
+        margin-top: $stickyMargin-s;
+
+        .sticky-item {
+            display: flex !important;
+            width: 300px !important;
+            margin-bottom: 15px;
+            padding: 3px 0;
+
+            .sticky-img-block {
+                overflow: hidden;
+                display: flex;
+                height: inherit;
+                height: 75px;
+                min-width: 100px;
+                margin-right: 8px;
+
+                img {
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .sticky-deskription {
+                .price-sticky {
+                    color: black;
+                    margin: 4px 0;
+                }
+
+                .sticky-info {
+                    margin-top: 4px;
+                    display: flex;
+
+                    div {
+                        display: flex;
+                        margin-right: 10px;
+
+                        i {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    a {
+        button {
+            margin-top: $stickyMargin-s;
+            width: 100%;
+            padding: 6px 0px;
+            line-height: 1.286;
+            font-size: 14px;
+        }
+    }
+}

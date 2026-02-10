@@ -1,0 +1,193 @@
+@import '../../scss/variables.scss';
+
+.index-map-block-back {
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    overflow-y: auto;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    background: #2929297c;
+    padding: 30px;
+
+    /* display: none; */
+    .index-map-block-main-container {
+        width: fit-content;
+        margin: 0 auto;
+        padding: 0 54px;
+        position: relative;
+        height: 100%;
+
+        .index-map-block-container {
+            min-height: 480px;
+            z-index: 53;
+            margin: auto;
+            width: 904px;
+            padding: 30px 30px 40px;
+            border-radius: $borderRadiusL;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 5%), 0 4px 24px rgba(0, 0, 0, 12%);
+            background: $lightThemeBackground;
+            display: block;
+
+            .i-m-b-first-wrapper {
+
+                min-height: inherit;
+
+                .i-m-b-input-block {
+                    input {
+                        background-color: $colorTheme2;
+                        border: 3px solid $colorTheme2;
+                        padding: 10px 9px;
+                        width: 100%;
+
+                        font-size: 16px;
+                        padding-left: 14px;
+                        /* transition: all 0.15s ease-in-out; */
+                    }
+
+                    h2,
+                    h3 {
+                        margin-bottom: 25px;
+                    }
+
+                    &__input {
+                        position: relative;
+                        border-radius: $borderRadiusS;
+
+                        &__input-button {
+                            position: relative;
+                            overflow: hidden;
+                            border-radius: $borderRadiusS;
+
+                            input {
+                                &:focus {
+                                    border: 3px solid $colorTheme;
+                                }
+                            }
+
+                            &__clear-button {
+                                background-color: #f2f1f0;
+                                position: absolute;
+                                right: 0;
+                                width: 30px;
+                                top: 0;
+                                justify-content: center;
+                                display: inline-grid;
+                                height: 100%;
+                                align-content: center;
+                                border-radius: 0px $borderRadiusS $borderRadiusS 0px;
+                                box-shadow: 11px 0 25px rgba(0, 0, 0, 0.5);
+                            }
+
+                            &:focus-within {
+                                .i-m-b-input-block__input__input-button__clear-button {
+                                    border-top: 3px solid #2aaaff;
+                                    border-bottom: 3px solid #2aaaff;
+                                    border-right: 3px solid #2aaaff;
+                                }
+                            }
+
+                        }
+
+                        &__result {
+                            box-shadow: 0px 1px 4px -2px;
+                            display: block;
+                            border-radius: $borderRadiusS;
+                            padding: 18px 0 22px 0;
+                            position: absolute;
+                            z-index: 1001;
+                            background-color: white;
+                            width: 100%;
+
+                            &__item {
+                                cursor: pointer;
+                                padding: 11px 9px 11px 17px;
+                                display: flex;
+
+                                &:hover {
+                                    background-color: $colorTheme2Hover;
+                                }
+
+                                &:active {
+                                    background-color: $colorTheme2Active;
+                                }
+                            }
+                            .hystory {
+                                color: #4a004a;
+                            }
+
+                            .skeleton {
+                                font-size: 20px;
+                                margin: 4px 19px;
+                                width: -webkit-fill-available;
+                            }
+
+                            &__noresult {
+                                padding: 11px 9px 11px 17px;
+                                display: flex;
+                                cursor: default;
+                            }
+
+                        }
+
+
+                    }
+
+                    &__state {
+                        animation: fadeIn 0.3s ease-in-out;
+                        animation: fadeOut 0.3s ease-in-out;
+                        margin: 21px 0;
+
+                        input {
+                            cursor: default;
+
+                            &:focus {
+                                border: 3px solid $colorTheme2;
+                            }
+                        }
+                    }
+                }
+
+                .i-m-b-map-container {
+                    margin-top: 21px;
+                    height: 400px;
+                    width: 844px;
+
+                    .leaflet-container {
+                        border-radius: $borderRadiusM;
+                    }
+                }
+
+                .i-m-b-show-result-button-container {
+                    display: flex;
+                    justify-content: end;
+                    margin-top: 35px;
+
+                    .i-m-b-show-result-button {
+                        border-radius: $borderRadiusS;
+                        padding: 10px 11px;
+                        position: relative;
+                        min-width: 294px;
+                        min-height: 38px;
+                        .show-result-button-spiner{
+                            font-size: 7px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .close-button-i-m-b {
+            position: absolute;
+            cursor: pointer;
+            transform: translate(0px, -4px);
+            right: 0;
+        }
+    }
+
+    .map-input-spiner:not(:required) {
+        font-size: 6px;
+    }
+
+}

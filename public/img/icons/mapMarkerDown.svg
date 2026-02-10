@@ -1,0 +1,15 @@
+<svg width="40" height="64" xmlns="http://www.w3.org/2000/svg">
+ <!-- Тень -->
+
+ <!-- Маркер -->
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="66" width="42" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <ellipse stroke="null" id="svg_1" fill="rgba(0, 0, 0, 0.2)" ry="4" rx="4.07923" cy="59.30691" cx="19.80198"/>
+  <path stroke="#fffefeff" id="svg_2" stroke-width="2" fill="#48b2f8ff" d="m20.14851,1.28713c-10.25309,0 -18.42573,6.62582 -18.42573,15.26896c0,11.52418 18.22771,32.65183 18.22771,32.65183c0,0 18.32673,-22.81081 18.22772,-32.65183c-0.09901,-9.84102 -7.7766,-15.26896 -18.0297,-15.26896z"/>
+  <circle id="svg_3" stroke-width="2" stroke="#c4c4c4ff" fill="#fff" r="6" cy="18" cx="20"/>
+ </g>
+</svg>

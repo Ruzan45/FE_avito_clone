@@ -1,0 +1,100 @@
+@import "../../../scss/variables.scss";
+
+.menuDown {
+    display: flex;
+    font-size: $themeFontSizeS;
+    margin: 20px auto 0 auto !important;
+    position: relative;
+
+    .all-catigories-button {
+        padding: 1px 21px;
+        border-radius: $borderRadiusS;
+        margin-right: 5px;
+        height: 37px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+
+        div {
+            height: 15px;
+            width: 14px;
+            margin-right: 6px;
+        }
+    }
+
+    .logo {
+        width: 110px;
+        margin-right: 24px;
+    }
+
+    .search-block {
+        display: flex;
+        flex-grow: 1;
+        max-width: 896px;
+        border: 2px solid $colorTheme;
+        border-radius: $borderRadiusS;
+
+        .search-form {
+            position: relative;
+            display: inline-flex;
+            flex-grow: 1;
+
+            label {
+                padding: 0 8px;
+                box-sizing: border-box;
+                width: 100%;
+
+                input {
+                    width: 100%;
+                    font-size: inherit;
+                    box-sizing: border-box;
+                    border: 0;
+                    outline: 0;
+                    display: inline-flex;
+                    align-self: stretch;
+                    vertical-align: middle;
+                    min-width: 0;
+                    height: -webkit-fill-available;
+                }
+            }
+
+            .search-result {
+                border: 2px solid $colorTheme;
+                border-bottom-left-radius: 6px;
+                border-bottom-right-radius: 6px;
+                position: absolute;
+                background: white;
+                width: 100%;
+                display: none;
+                box-sizing: border-box;
+                padding: 9px 0px;
+                top: 33px;
+                left: -1px;
+                height: max-content;
+
+                ul {
+                    li:hover{
+                        background-color: $colorTheme2Hover;
+                    }
+                    li {
+                        a {
+                            font-size: 18px;
+                            display: block;
+                            line-height: 39px;
+                            padding: 0 19px;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+
+        .search-button {
+            display: inline-flex;
+            button{
+                padding: 0px 25px;
+            }
+        }
+    }
+
+}

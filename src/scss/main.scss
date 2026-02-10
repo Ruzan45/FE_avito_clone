@@ -1,0 +1,391 @@
+ @import "./variables.scss";
+
+ @keyframes fadeIn {
+   from {
+     opacity: 0;
+   }
+
+   to {
+     opacity: 1;
+   }
+ }
+
+ @keyframes fadeOut {
+   from {
+     opacity: 1;
+   }
+
+   to {
+     opacity: 0;
+   }
+ }
+ 
+@-moz-keyframes spinner-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spinner-loader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinner-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+/* :not(:required) hides this rule from IE9 and below */
+.spinner-loader:not(:required) {
+    -moz-animation: spinner-loader 2500ms infinite linear;
+    -webkit-animation: spinner-loader 2500ms infinite linear;
+    animation: spinner-loader 2500ms infinite linear;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    border-radius: 0.5em;
+    -moz-box-shadow: rgba(0, 0, 51, 0.3) 1.5em 0 0 0, rgba(0, 0, 51, 0.3) 1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) 0 1.5em 0 0, rgba(0, 0, 51, 0.3) -1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) -1.5em 0 0 0, rgba(0, 0, 51, 0.3) -1.1em -1.1em 0 0, rgba(0, 0, 51, 0.3) 0 -1.5em 0 0, rgba(0, 0, 51, 0.3) 1.1em -1.1em 0 0;
+    -webkit-box-shadow: rgba(0, 0, 51, 0.3) 1.5em 0 0 0, rgba(0, 0, 51, 0.3) 1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) 0 1.5em 0 0, rgba(0, 0, 51, 0.3) -1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) -1.5em 0 0 0, rgba(0, 0, 51, 0.3) -1.1em -1.1em 0 0, rgba(0, 0, 51, 0.3) 0 -1.5em 0 0, rgba(0, 0, 51, 0.3) 1.1em -1.1em 0 0;
+    box-shadow: rgba(0, 0, 51, 0.3) 1.5em 0 0 0, rgba(0, 0, 51, 0.3) 1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) 0 1.5em 0 0, rgba(0, 0, 51, 0.3) -1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) -1.5em 0 0 0, rgba(0, 0, 51, 0.3) -1.1em -1.1em 0 0, rgba(0, 0, 51, 0.3) 0 -1.5em 0 0, rgba(0, 0, 51, 0.3) 1.1em -1.1em 0 0;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin: 1.5em;
+    overflow: hidden;
+    text-indent: 100%;
+    position: absolute;
+    justify-self: anchor-center;
+    align-self: anchor-center;
+}
+
+ .content-width {
+   max-width: $content-width;
+   margin: 0 auto;
+ }
+
+ .cp {
+   cursor: pointer;
+ }
+
+ .lnk-color {
+   cursor: pointer;
+   color: $moduleLinkColor;
+ }
+
+ .lnk-color2 {
+   cursor: pointer;
+   color: $moduleLinkColor2;
+ }
+
+ .lnk-color:hover {
+   color: $moduleLinkColorHover;
+ }
+
+ .lnk-color:active {
+   color: $moduleLinkColorActive;
+ }
+
+ .lnk-color2:hover {
+   color: $moduleLinkColorHover;
+ }
+
+ .lnk-color2:active {
+   color: $moduleLinkColorActive;
+ }
+
+ .d-text {
+   font-size: $fontSizeSmall;
+   color: #757575;
+ }
+
+ .style-button {
+   transition: $oTransition;
+   user-select: none;
+   outline: 0;
+   border: 0;
+   cursor: pointer;
+ }
+
+ .button-color {
+   background-color: $colorTheme;
+   color: white;
+ }
+
+ .button-color:hover {
+   background-color: $colorThemeHover;
+ }
+
+ .button-color:active {
+   background-color: $colorThemeActive;
+ }
+
+ .button-color2 {
+   color: rgb(0, 0, 0);
+   background-color: $colorTheme2;
+ }
+
+ .button-color2:hover {
+   background-color: $colorTheme2Hover;
+ }
+
+ .button-color2:active {
+   background-color: $colorTheme2Active;
+ }
+
+ .button-color3 {
+   color: white;
+   background-color: $colorTheme3;
+ }
+
+ .button-color3:hover {
+   background-color: $colorTheme3Hover;
+ }
+
+ .button-color3:active {
+   background-color: $colorTheme3Active;
+ }
+ .button-color3:disabled {
+   color: white;
+   background-color: $colorTheme3Disabled;
+   cursor: default;
+ }
+
+ * {
+   padding: 0;
+   margin: 0;
+   list-style: none;
+   outline: none;
+   box-sizing: border-box;
+ }
+
+ .back-dark {
+   display: none;
+   z-index: 3;
+   position: fixed;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background: #2929297c;
+ }
+
+
+ /* reset */
+ html,
+ body,
+ div,
+ span,
+ applet,
+ object,
+ iframe,
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6,
+ p,
+ blockquote,
+ pre,
+ a,
+ abbr,
+ acronym,
+ address,
+ big,
+ cite,
+ code,
+ del,
+ dfn,
+ em,
+ img,
+ ins,
+ kbd,
+ q,
+ s,
+ samp,
+ small,
+ strike,
+ strong,
+ sub,
+ sup,
+ tt,
+ var,
+ b,
+ u,
+ i,
+ center,
+ dl,
+ dt,
+ dd,
+ ol,
+ ul,
+ li,
+ fieldset,
+ form,
+ label,
+ legend,
+ table,
+ caption,
+ tbody,
+ tfoot,
+ thead,
+ tr,
+ th,
+ td,
+ article,
+ aside,
+ canvas,
+ details,
+ embed,
+ figure,
+ figcaption,
+ footer,
+ header,
+ hgroup,
+ menu,
+ nav,
+ output,
+ ruby,
+ section,
+ summary,
+ time,
+ mark,
+ audio,
+ video {
+   margin: 0;
+   padding: 0;
+   border: 0;
+   font-size: 100%;
+   font: inherit;
+   vertical-align: baseline;
+   font-family: $themeFontFamily;
+ }
+
+ /* HTML5 display-role reset for older browsers */
+ article,
+ aside,
+ details,
+ figcaption,
+ figure,
+ footer,
+ header,
+ hgroup,
+ menu,
+ nav,
+ section {
+   display: block;
+ }
+
+ body {
+   line-height: 1;
+   -moz-osx-font-smoothing: grayscale;
+   -webkit-font-smoothing: antialiased;
+ }
+
+ ol,
+ ul,
+ li {
+   list-style: none;
+ }
+
+ blockquote,
+ q {
+   quotes: none;
+ }
+
+ blockquote:before,
+ blockquote:after,
+ q:before,
+ q:after {
+   content: '';
+   content: none;
+ }
+
+ table {
+   border-collapse: collapse;
+   border-spacing: 0;
+ }
+
+
+ html {
+   -ms-text-size-adjust: 100%;
+   -webkit-text-size-adjust: 100%;
+ }
+
+ strong {
+   font-weight: 700;
+ }
+
+ h1 {
+   font-size: 48px;
+ }
+
+ h2 {
+   font-weight: 700;
+   font-size: 32px;
+   line-height: 36px;
+ }
+
+ h3 {
+   font-size: 22px;
+   font-weight: 700;
+ }
+
+ h4 {
+   font-size: 17px;
+   font-weight: 500;
+ }
+
+ h5 {
+   font-size: 16px;
+   font-weight: 500;
+ }
+
+ h6 {
+   font-size: 15px;
+   font-weight: 500;
+ }
+
+ a {
+   text-decoration: none;
+ }
+
+ @mixin noselect {
+   -webkit-touch-callout: none;
+   /* iOS Safari */
+   -webkit-user-select: none;
+   /* Safari */
+   -khtml-user-select: none;
+   /* Konqueror HTML */
+   -moz-user-select: none;
+   /* Old versions of Firefox */
+   -ms-user-select: none;
+   /* Internet Explorer/Edge */
+   user-select: none;
+   /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+ }

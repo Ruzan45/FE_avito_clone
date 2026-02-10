@@ -1,0 +1,58 @@
+@import "../../scss/variables.scss";
+
+.big-visual-menu {
+    width: 100%;
+    --columns: 17;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(var(--columns), [col] 1fr);
+    grid-template-rows: repeat(2, [row] 90px);
+
+    .v-m-item {
+        transition: $oTransition;
+        background: $colorTheme2;
+        display: block;
+        position: relative;
+        border-radius: $borderRadiusM;
+        overflow: hidden;
+        padding: 10px 14px;
+        cursor: pointer;
+        text-decoration: none;
+        color: rgba(0, 0, 0, 1);
+
+        .v-m-item-name {
+            width: 99%;
+
+            span {
+                white-space: pre-wrap;
+                line-height: 18px;
+                font-size: $fontSizeSmall;
+            }
+        }
+
+        .v-m-item-img {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 1;
+            filter: opacity(0.9);
+            height: 73%;
+        }
+    }
+
+    .v-m-item:hover {
+        background: $colorTheme2Hover;
+    }
+
+    .v-m-item:active {
+        background: $colorTheme2Active;
+    }
+
+    .v-m-item-s {
+        grid-column: span 2;
+    }
+
+    .v-m-item-m {
+        grid-column: span 3;
+    }
+}

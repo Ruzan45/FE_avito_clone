@@ -1,0 +1,23 @@
+@import "../../scss/variables.scss";
+
+.index-rules {
+    div {
+        display: flex;
+        flex-direction: column;
+
+        a {
+            margin: 0 0 5px 0;
+            color: $moduleLinkColor2;
+            line-height: 18px;
+        }
+
+        a:hover {
+            color: $moduleLinkColorHover;
+        }
+
+        a:active {
+            color: $moduleLinkColorActive;
+        }
+    }
+
+}

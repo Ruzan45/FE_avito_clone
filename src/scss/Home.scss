@@ -1,0 +1,20 @@
+@import "./variables.scss";
+
+.content {
+    display: flex;
+    margin-top: 21px !important;
+
+    .index-content {
+        display: block;
+        width: 100%;
+    }
+
+    .index-sticky-container {
+        width: 300px;
+        margin-left: 36px;
+    }
+    .index-sticky-container>div {
+    box-shadow: inset -3px -4px 6px -8px;
+}
+
+}
