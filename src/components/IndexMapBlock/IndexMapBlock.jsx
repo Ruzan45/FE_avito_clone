@@ -49,12 +49,14 @@ function IndexMapBlock({ onClose }) {
     });
 
     const isMounted = useRef(false); //"самописный" persist без сторонних библиотек, isMounted предотвращает перезапись localStorage пустым значением при самом первом рендере (когда стейт еще инициализируется).
-    useEffect(() => {
+/*     useEffect(() => {
+        console.log('first')
         if (isMounted.current) {
             window.localStorage.setItem('hystoryPositionUser', JSON.stringify(hystory));
+            console.log('first2')
         }
         isMounted.current = true;
-    }, [hystory]);
+    }, [hystory]); */
     useEffect(() => { //закрываем окошко с результатом поиска при клике вне него
         let handleClickOutside = (e) => {
             if (!(resultBlock.current && resultBlock.current.contains(e.target))) { setIsVisibleResult(false) };
@@ -205,7 +207,7 @@ function IndexMapBlock({ onClose }) {
     // getMap(currentPosition, 'You are here')
     //}
     // const error = ({ message }) => {
-      //  console.log(message)
+    //  console.log(message)
     //}
 
     const markerToCenter = (lat, lng) => {
@@ -284,29 +286,18 @@ function IndexMapBlock({ onClose }) {
 
         return null;
     }
-
-    // Обработчик перетаскивания маркера
-    /* const handleMarkerDragEnd = (e) => {
-        const latlng = e.target.getLatLng();
-        setPosition([latlng.lat, latlng.lng]);
-    }; */
-
     const MapEventHandler = () => {
         useMapEvents({
             drag: () => {// Обновляем позицию маркера в центре карты при перетаскивании
                 markerToCenter();
-                console.log('drag');
             },
             move: () => {
-                console.log('move');
                 markerRef.current._icon.src = '/img/icons/mapMarkerDown.svg';
             },
             moveend: () => {
-                console.log('moveend');
                 markerRef.current._icon.src = '/img/icons/mapMarkerUp.svg';
                 // Обновляем окончательную позицию при отпускании мыши
                 if (!isZooming) {
-                    console.log('first')
                     if (currentPosition.current) {
                         searchWithPosition();
                     }
@@ -314,18 +305,12 @@ function IndexMapBlock({ onClose }) {
             },
             zoomstart: () => {
                 setIsZooming(true);
-                console.log('zoomstart')
             },
             zoomend: () => {
                 setIsZooming(false);
-                console.log('zoomend')
 
             },
-            mouseup: () => {
-                console.log('mouseup');
-            },
             click: (e) => {
-                console.log('mouseup');
                 map.setView([parseFloat(e.latlng.lat), parseFloat(e.latlng.lng)], 17);
                 if (e.latlng) {
                     markerRef.current.setLatLng(e.latlng);

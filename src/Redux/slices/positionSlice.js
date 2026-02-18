@@ -44,32 +44,41 @@ const initialState = {
 const addToHystoryLogic = (state, action) => {
     const hystory = state.hystorySearch.data;
     const selected = action.payload;
+    const saveToLC = (data) => {
+        window.localStorage.setItem('hystoryPositionUser', JSON.stringify(data));
+    }
     if (selected) {
         if (hystory.length > 0) {//сохраняю в редакс историю кликов
-            const found = Object.values(hystory).some(item => item.display_name === selected.display_name);
-            if (!found) {
+            const found = Object.values(hystory).some(item => item.display_name === selected.display_name); //есть ли в истории объектов данная позиция
+            if (!found) {//если не было такой
                 if (hystory.length >= 4) { //колличество истории
                     state.hystorySearch.data.unshift(selected);
                     state.hystorySearch.data.pop();
+                    saveToLC(state.hystorySearch.data);
                 } else {
                     state.hystorySearch.data.unshift(selected);
+                    saveToLC(state.hystorySearch.data);
                 }
-            } else {
-                const iRemove = hystory.findIndex(item => item.display_name === selected.display_name);
-                if (hystory.length !== 1) {
+            } else {//если такая позиция уже была
+                const iRemove = hystory.findIndex(item => item.display_name === selected.display_name);//найди индекс этой позиции в истории
+                if (hystory.length !== 1) {//если история не одна
                     if (selected.address) {//если в доп запросе или в payload есть данные об адресе
                         state.hystorySearch.data = [selected, ...hystory.slice(0, iRemove), ...hystory.slice(iRemove + 1)];
+                        saveToLC(state.hystorySearch.data);
                     } else {
                         state.hystorySearch.data = [hystory[iRemove], ...hystory.slice(0, iRemove), ...hystory.slice(iRemove + 1)];
+                        saveToLC(state.hystorySearch.data);
                     }
                 } else {
                     if (selected.address) {//если в доп запросе или в payload есть данные об адресе
                         state.hystorySearch.data = [selected];//то замени свежими данными
+                        saveToLC(state.hystorySearch.data);
                     }
                 }
             }
         } else {
             state.hystorySearch.data.push(selected);
+            saveToLC(state.hystorySearch.data);
         }
     }
 }
@@ -132,7 +141,7 @@ const hystorySearchSlice = createSlice({
                 state.searchAddressOnClose.errMsg = action.payload;
                 console.log(action.payload);
             })
-            
+
     }
 })
 

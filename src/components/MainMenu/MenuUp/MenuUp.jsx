@@ -20,12 +20,16 @@ function MenuUp() {
       document.body.style.overflow = 'unset';
     }
   }, [openedMap]);
-  console.log(openedMap)
 
   return (
     <div className="menu-high">
       <div className="menu-high-inner content-width">
-        <div className="menu-high-region"><li><a className="cp" onClick={() => setOpenedMap(true)}><i className="fa fa-map-marker cp" aria-hidden="true"></i>  {place || city}</a></li></div>
+        <div className="menu-high-region">
+          <div className="menu-high-region__city">
+            <li><a className="cp " onClick={() => setOpenedMap(true)}><i className="fa fa-map-marker cp" aria-hidden="true"></i>  {place || city}</a></li>
+            <div className="menu-high-region__city__question"></div>
+          </div>
+          </div>
         <div className="user-header-menu">
           <ul>
             <li className="head-icon fav-head"><a><i className="fa fa-heart cp" aria-hidden="true"></i></a><p className="head-icon-num">3</p></li>
