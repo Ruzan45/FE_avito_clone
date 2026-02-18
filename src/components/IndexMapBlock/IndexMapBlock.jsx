@@ -295,30 +295,37 @@ function IndexMapBlock({ onClose }) {
         useMapEvents({
             drag: () => {// Обновляем позицию маркера в центре карты при перетаскивании
                 markerToCenter();
+                console.log('drag');
             },
             move: () => {
+                console.log('move');
                 markerRef.current._icon.src = '/img/icons/mapMarkerDown.svg';
             },
             moveend: () => {
+                console.log('moveend');
                 markerRef.current._icon.src = '/img/icons/mapMarkerUp.svg';
+                // Обновляем окончательную позицию при отпускании мыши
+                if (!isZooming) {
+                    console.log('first')
+                    if (currentPosition.current) {
+                        searchWithPosition();
+                    }
+                };
             },
             zoomstart: () => {
                 setIsZooming(true);
-                console.log('start')
+                console.log('zoomstart')
             },
             zoomend: () => {
                 setIsZooming(false);
-                console.log('end')
+                console.log('zoomend')
 
             },
             mouseup: () => {
-                // Обновляем окончательную позицию при отпускании мыши
-                if (isZooming) {console.log('zoom true')};
-                if (currentPosition.current) {
-                    searchWithPosition();
-                }
+                console.log('mouseup');
             },
             click: (e) => {
+                console.log('mouseup');
                 map.setView([parseFloat(e.latlng.lat), parseFloat(e.latlng.lng)], 17);
                 if (e.latlng) {
                     markerRef.current.setLatLng(e.latlng);
