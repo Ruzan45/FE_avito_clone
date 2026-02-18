@@ -16,7 +16,9 @@ function IndexMapBlock({ onClose }) {
     const { hystorySearch, searchResults, searchPosition, searchAddressOnClose } = useSelector(state => state.positionSlice);
     const hystory = hystorySearch.data;
 
-    const [position, setPosition] = useState(null); // текущая позиция
+    const [position, setPosition] = useState(null); // текущая позиция карты
+    const [positionMarker, setPositionMarker] = useState(null); // текущая позиция маркера
+
 
     const [searchInputVal, setSearchInputVal] = useState('');
     const [isVisibleResult, setIsVisibleResult] = useState(false);
@@ -29,10 +31,11 @@ function IndexMapBlock({ onClose }) {
     const [isLoading, setIsLoading] = useState(false);
     const [noResults, setNoResults] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(null);
+    const [isZooming, setIsZooming] = useState(false);
+
 
     const markerRef = useRef(null);
-    const currentPosition = useRef(null); // Для хранения окончательной позиции
-    const tempPosition = useRef(null);    // Для хранения временной позиции во время перетаскивания
+    const currentPosition = useRef(null); // Для хранения позиции при перетаскивании
     const resultBlock = useRef(null); //Результат поиска
     const mapBlockBack = useRef(null);
 
@@ -112,11 +115,16 @@ function IndexMapBlock({ onClose }) {
         [],
     )
     const searchWithPosition = useCallback(//useCallback чтобы не было рерэндера
-        debounce((pos) => { //задержка
-            mouseUpSearch(pos);
+        debounce(() => { //задержка
+            mouseUpSearch();
         }, 1000),
         [],
-    )
+    );
+    const mouseUpSearch = async () => {
+        if (!currentPosition.current) return;
+        setIsLoading(true);
+        dispatch(fetchSearchPosition(currentPosition.current));
+    };
     const handleSearchWhithVal = async (search) => {
         if (!search) return;
         setPlaces(null);
@@ -156,18 +164,14 @@ function IndexMapBlock({ onClose }) {
         status === 'loading' && setIsLoading(true);
         if (status === 'loaded') {
             if (searchAddressOnClose.item) {
-                dispatch(statusNull());
                 onClose();
+                dispatch(statusNull());
             }
         }
         status === 'error' && console.log(searchAddressOnClose.errMsg);
     }, [searchAddressOnClose])
 
-    const mouseUpSearch = async (pos) => {
-        if (!pos) return;
-        setIsLoading(true);
-        dispatch(fetchSearchPosition(pos));
-    };
+
 
     const addressPrettyer = (res) => { // убираем из строчки адреса лишнюю информацию
         if (res.address) {
@@ -194,23 +198,27 @@ function IndexMapBlock({ onClose }) {
 Пример: ...&viewbox=37.1,55.9,37.9,55.5&bounded=1 (поиск строго в районе Москвы). */
 
 
-    const success = ({ coords }) => {
-        const { latitude, longitude } = coords
-        setPosition([latitude, longitude]);
-        // вызываем функцию, передавая ей текущую позицию и сообщение
-        /* getMap(currentPosition, 'You are here') */
-    }
-    const error = ({ message }) => {
-        console.log(message)
-    }
+    //const success = ({ coords }) => {
+    //const { latitude, longitude } = coords
+    //setPosition([latitude, longitude]);
+    // вызываем функцию, передавая ей текущую позицию и сообщение
+    // getMap(currentPosition, 'You are here')
+    //}
+    // const error = ({ message }) => {
+      //  console.log(message)
+    //}
 
-    const markerToCenter = () => {
+    const markerToCenter = (lat, lng) => {
         if (map && markerRef.current) {
-            const center = map.getCenter();
+            const center = map.getCenter();//функция считывает центр предыдущей позиции если резко переключиться к другому адресу, поэтому нужен фикс ниже
             //map.panTo(center);
             markerRef.current.setLatLng(center);
-            tempPosition.current = center; // Обновляем временную позицию
-        }
+            currentPosition.current = center; // Обновляем переменную с позицией
+            if (lat) {//если идет выбор адреса из поисковика, то изменить позицию маркера тоже //фикс бага с перемещением маркера при выборе адреса неподалёку
+                setPositionMarker([lat, lng]); ////фикс
+                currentPosition.current = { lat: lat, lng: lng };//фикс
+            };
+        };
     }
 
     // Компонент для обрабатывания клика по карте
@@ -242,9 +250,11 @@ function IndexMapBlock({ onClose }) {
 
 
     const onClickPosition = (obj) => {
-       // setPosition([parseFloat(obj.lat), parseFloat(obj.lon)]); //parseFloat разбирает текстовую строку, ищет и возвращает из неё десятичное число
-        map.setView([parseFloat(obj.lat), parseFloat(obj.lon)], 17);// Перемещение к новым координатам
-        markerToCenter();
+        // setPosition([parseFloat(obj.lat), parseFloat(obj.lon)]); //parseFloat разбирает текстовую строку, ищет и возвращает из неё десятичное число
+        const lat = parseFloat(obj.lat);
+        const lng = parseFloat(obj.lon);
+        map.setView([lat, lng], 17);// Перемещение к новым координатам
+        markerToCenter(lat, lng);
         addressPrettyer(obj);
         setIsVisibleResult(false);
         if (!isVisibleMap) { setIsVisibleMap(true) };
@@ -253,15 +263,15 @@ function IndexMapBlock({ onClose }) {
     const clickShowResult = () => {
         if (selectedAddress.address) { //если в запросе есть данные об адресе
             dispatch(hystoryToRedux(selectedAddress));
+            onClose();
         } else {//если нет, то вызывай другой extraReducers
-            dispatch(fetchSearchAddressOnClose(selectedAddress))
+            dispatch(fetchSearchAddressOnClose(selectedAddress));
         }
     }
 
     function MapInstatse() {
-        const map = useMap(); // Получаем инстанс карты //доработать, т к бывает что карта не сразу прогружается, из-за этого возникает ошибка
+        const map = useMap(); // Получаем инстанс карты 
         if (map) { setMap(map); }
-        setMap(map);
         return null;
     }
     function MapResizer() { //фикс бага с недозагрузкой карты
@@ -292,11 +302,20 @@ function IndexMapBlock({ onClose }) {
             moveend: () => {
                 markerRef.current._icon.src = '/img/icons/mapMarkerUp.svg';
             },
+            zoomstart: () => {
+                setIsZooming(true);
+                console.log('start')
+            },
+            zoomend: () => {
+                setIsZooming(false);
+                console.log('end')
+
+            },
             mouseup: () => {
                 // Обновляем окончательную позицию при отпускании мыши
-                if (tempPosition.current) {
-                    currentPosition.current = tempPosition.current;
-                    searchWithPosition(currentPosition.current);
+                if (isZooming) {console.log('zoom true')};
+                if (currentPosition.current) {
+                    searchWithPosition();
                 }
             },
             click: (e) => {
@@ -304,7 +323,7 @@ function IndexMapBlock({ onClose }) {
                 if (e.latlng) {
                     markerRef.current.setLatLng(e.latlng);
                     currentPosition.current = e.latlng;
-                    searchWithPosition(currentPosition.current);
+                    searchWithPosition();
                 }
             }
 
@@ -444,7 +463,7 @@ function IndexMapBlock({ onClose }) {
                                 {map && (
                                     <Marker
                                         /* key={markerKey} */
-                                        position={map.getCenter()}
+                                        position={positionMarker || map.getCenter()}
                                         ref={markerRef}
                                         icon={customIcon}
                                     /* draggable={true}

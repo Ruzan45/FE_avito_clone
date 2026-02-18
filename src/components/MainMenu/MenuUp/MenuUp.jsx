@@ -12,7 +12,6 @@ function MenuUp() {
 
   const address = hystorySearch.data[0]?.address;
   const place = address?.city ?? address?.town ?? address?.village ?? null;
-  console.log(place);
 
   React.useEffect(() => {
     if (openedMap) {
@@ -21,6 +20,7 @@ function MenuUp() {
       document.body.style.overflow = 'unset';
     }
   }, [openedMap]);
+  console.log(openedMap)
 
   return (
     <div className="menu-high">
