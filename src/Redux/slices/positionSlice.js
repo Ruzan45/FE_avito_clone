@@ -6,7 +6,7 @@ export const fetchSearchWhithVal = createAsyncThunk('/hystorySearch/fetchSearchW
     return data;
 
 })
-export const fetchSearchPosition = createAsyncThunk('/hystorySearch/fetchSearchPosition', async (pos) => {
+export const fetchSearchCordinates = createAsyncThunk('/hystorySearch/fetchSearchCordinates', async (pos) => {
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${encodeURIComponent(pos.lat)}8&lon=${encodeURIComponent(pos.lng)}`);
     const data = await response.json();
     return data; //возвращаем в action.payload
@@ -111,15 +111,15 @@ const hystorySearchSlice = createSlice({
                 console.log(action.payload);
             })
             //запрос по координатам
-            .addCase(fetchSearchPosition.pending, (state) => {
+            .addCase(fetchSearchCordinates.pending, (state) => {
                 state.searchPosition.item = [];
                 state.searchPosition.status = 'loading';
             })
-            .addCase(fetchSearchPosition.fulfilled, (state, action) => {
+            .addCase(fetchSearchCordinates.fulfilled, (state, action) => {
                 state.searchPosition.item = action.payload;
                 state.searchPosition.status = 'loaded';
             })
-            .addCase(fetchSearchPosition.rejected, (state, action) => {
+            .addCase(fetchSearchCordinates.rejected, (state, action) => {
                 state.searchPosition.item = [];
                 state.searchPosition.status = 'error';
                 state.searchPosition.errMsg = action.payload;

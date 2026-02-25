@@ -7,8 +7,9 @@ import debounce from 'lodash.debounce'; //большая библиотека с
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { hystoryToRedux, fetchSearchWhithVal, fetchSearchPosition, fetchSearchAddressOnClose, statusNull } from '../../Redux/slices/positionSlice';
+import { hystoryToRedux, fetchSearchWhithVal, fetchSearchCordinates, fetchSearchAddressOnClose, statusNull } from '../../Redux/slices/positionSlice';
 import CloseIcon from '@mui/icons-material/Close';
+import Cookies from 'js-cookie';
 
 
 function IndexMapBlock({ onClose }) {
@@ -31,7 +32,7 @@ function IndexMapBlock({ onClose }) {
     const [isLoading, setIsLoading] = useState(false);
     const [noResults, setNoResults] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(null);
-    const [isZooming, setIsZooming] = useState(false);
+    const [isCoordinates, setSearchCoordinates] = useState(true); //переменная для того чтобы убрать лишние запросы на сервер по адресу
 
 
     const markerRef = useRef(null);
@@ -49,44 +50,7 @@ function IndexMapBlock({ onClose }) {
     });
 
     const isMounted = useRef(false); //"самописный" persist без сторонних библиотек, isMounted предотвращает перезапись localStorage пустым значением при самом первом рендере (когда стейт еще инициализируется).
-/*     useEffect(() => {
-        console.log('first')
-        if (isMounted.current) {
-            window.localStorage.setItem('hystoryPositionUser', JSON.stringify(hystory));
-            console.log('first2')
-        }
-        isMounted.current = true;
-    }, [hystory]); */
-    useEffect(() => { //закрываем окошко с результатом поиска при клике вне него
-        let handleClickOutside = (e) => {
-            if (!(resultBlock.current && resultBlock.current.contains(e.target))) { setIsVisibleResult(false) };
-        }
-        document.body.addEventListener('click', handleClickOutside);
-        return () => {
-            document.body.removeEventListener('click', handleClickOutside);
-        }
-    }, [])
-    useEffect(() => { //закрываем окошко с результатом поиска при клике вне него
-        let handleClickOutside = (e) => {
-            e.target === mapBlockBack.current && onClose();
-        }
-        document.body.addEventListener('click', handleClickOutside);
-        return () => {
-            document.body.removeEventListener('click', handleClickOutside);
-        }
-    }, [])
-    useEffect(() => {
-        const handleEsc = (event) => {
-            if (event.key === 'Escape') {
-                onClose();
-            }
-        };
-        document.body.addEventListener('keydown', handleEsc);
-        return () => {
-            document.body.removeEventListener('keydown', handleEsc);
-        };
-    }, [onClose]); // Зависимость от onClose гарантирует актуальность функции
-    useEffect(() => { //восстанавливам позицию при перезагрузке страницы
+    useEffect(() => { //восстанавливам позицию при 
         if (isMounted.current) {
             if (hystory[0]) {
                 setPosition([parseFloat(hystory[0].lat), parseFloat(hystory[0].lon)]);
@@ -102,7 +66,63 @@ function IndexMapBlock({ onClose }) {
         }
         isMounted.current = true;
     }, [map])
-
+    /*     useEffect(() => {
+            console.log('first')
+            if (isMounted.current) {
+                window.localStorage.setItem('hystoryPositionUser', JSON.stringify(hystory));
+                console.log('first2')
+            }
+            isMounted.current = true;
+        }, [hystory]); */
+    useEffect(() => { //закрываем окошко с результатом поиска при клике вне него
+        let handleClickOutside = (e) => {
+            if (!(resultBlock.current && resultBlock.current.contains(e.target))) { setIsVisibleResult(false) };
+        }
+        document.body.addEventListener('click', handleClickOutside);
+        return () => {
+            document.body.removeEventListener('click', handleClickOutside);
+        }
+    }, []);
+    useEffect(() => { //закрываем окошко с картой с результатом поиска при клике вне него
+        let handleClickOutside = (e) => {
+            e.target === mapBlockBack.current && onClose();
+        }
+        document.body.addEventListener('click', handleClickOutside);
+        return () => {
+            document.body.removeEventListener('click', handleClickOutside);
+        }
+    }, []);
+    useEffect(() => { //отслеживаем клик на кнопку zoom
+        const element = document.querySelector('.leaflet-control-zoom-in');
+        let handleClickZoomIn = () => {
+            setSearchCoordinates(false);
+        }
+        element.addEventListener('mousedown', handleClickZoomIn);
+        return () => {
+            element.removeEventListener('mousedown', handleClickZoomIn);
+        }
+    }, []);
+    useEffect(() => { //отслеживаем клик на кнопку zoom
+        const element = document.querySelector('.leaflet-control-zoom-out');
+        let handleClickZoomIn = () => {
+            setSearchCoordinates(false);
+        }
+        element.addEventListener('mousedown', handleClickZoomIn);
+        return () => {
+            element.removeEventListener('mousedown', handleClickZoomIn);
+        }
+    }, []);
+    useEffect(() => {
+        const handleEsc = (event) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+        document.body.addEventListener('keydown', handleEsc);
+        return () => {
+            document.body.removeEventListener('keydown', handleEsc);
+        };
+    }, [onClose]); // Зависимость от onClose гарантирует актуальность функции
     const searchWithValue = useCallback( //useCallback чтобы не было рерэндера
         debounce((value) => { //задержка
             if (/^[а-яёА-ЯЁ0-9.,"\s]+$/.test(value) && value.length > 2) {
@@ -116,7 +136,7 @@ function IndexMapBlock({ onClose }) {
         }, 2000),
         [],
     )
-    const searchWithPosition = useCallback(//useCallback чтобы не было рерэндера
+    const searchWithCoordinates = useCallback(//useCallback чтобы не было рерэндера
         debounce(() => { //задержка
             mouseUpSearch();
         }, 1000),
@@ -125,7 +145,7 @@ function IndexMapBlock({ onClose }) {
     const mouseUpSearch = async () => {
         if (!currentPosition.current) return;
         setIsLoading(true);
-        dispatch(fetchSearchPosition(currentPosition.current));
+        dispatch(fetchSearchCordinates(currentPosition.current));
     };
     const handleSearchWhithVal = async (search) => {
         if (!search) return;
@@ -166,8 +186,9 @@ function IndexMapBlock({ onClose }) {
         status === 'loading' && setIsLoading(true);
         if (status === 'loaded') {
             if (searchAddressOnClose.item) {
-                onClose();
                 dispatch(statusNull());
+                setIsLoading(false);
+                onClose();
             }
         }
         status === 'error' && console.log(searchAddressOnClose.errMsg);
@@ -196,19 +217,7 @@ function IndexMapBlock({ onClose }) {
     }
 
 
-    /* Если вы хотите искать только в конкретном регионе России, добавьте параметры viewbox (координаты углов) и bounded=1.
-Пример: ...&viewbox=37.1,55.9,37.9,55.5&bounded=1 (поиск строго в районе Москвы). */
 
-
-    //const success = ({ coords }) => {
-    //const { latitude, longitude } = coords
-    //setPosition([latitude, longitude]);
-    // вызываем функцию, передавая ей текущую позицию и сообщение
-    // getMap(currentPosition, 'You are here')
-    //}
-    // const error = ({ message }) => {
-    //  console.log(message)
-    //}
 
     const markerToCenter = (lat, lng) => {
         if (map && markerRef.current) {
@@ -231,6 +240,46 @@ function IndexMapBlock({ onClose }) {
             // Установка центра при первой загрузке
         }
     }, [map]); */
+    /* mouseup(e) {   //определять по IP
+
+                console.log(e)
+                navigator.geolocation.getCurrentPosition(success, error, {
+                    enableHighAccuracy: true
+                });
+
+                setMarkerKey(prev => prev + 1);
+            } */
+    /* Если вы хотите искать только в конкретном регионе России, добавьте параметры viewbox (координаты углов) и bounded=1.
+Пример: ...&viewbox=37.1,55.9,37.9,55.5&bounded=1 (поиск строго в районе Москвы). */
+
+
+    //const success = ({ coords }) => {
+    //const { latitude, longitude } = coords
+    //setPosition([latitude, longitude]);
+    // вызываем функцию, передавая ей текущую позицию и сообщение
+    // getMap(currentPosition, 'You are here')
+    //}
+    // const error = ({ message }) => {
+    //  console.log(message)
+    //}
+    const clickFindLocation = () => {//определить автоматически
+        navigator.geolocation.getCurrentPosition((success => {
+            const { coords } = success;
+            const { latitude, longitude } = coords
+            const lat = parseFloat(latitude);
+            const lng = parseFloat(longitude);
+            map.setView([lat, lng], 17);// Перемещение к новым координатам
+            markerToCenter(lat, lng);
+            dispatch(fetchSearchCordinates(currentPosition.current));
+            if (!isVisibleMap) { setIsVisibleMap(true) };
+
+        }), (error) => {
+            console.log(error)
+        },
+            {
+                enableHighAccuracy: true
+            });
+    }
     const onChangeInputVal = (event) => {
         const { value } = event.target;
         !isVisibleResult && setIsVisibleResult(true);
@@ -263,6 +312,7 @@ function IndexMapBlock({ onClose }) {
         setSelectedAddress(obj);
     }
     const clickShowResult = () => {
+        Cookies.set('question', { expires: 1, path: '/' });//записываем в куки чтобы не было вопроса о местоположении 1 день
         if (selectedAddress.address) { //если в запросе есть данные об адресе
             dispatch(hystoryToRedux(selectedAddress));
             onClose();
@@ -296,18 +346,20 @@ function IndexMapBlock({ onClose }) {
             },
             moveend: () => {
                 markerRef.current._icon.src = '/img/icons/mapMarkerUp.svg';
-                // Обновляем окончательную позицию при отпускании мыши
-                if (!isZooming) {
+            },
+            mouseup: () => {
+                // Ищем позицию при отпускании мыши с помощью координат
+                if (isCoordinates) {
                     if (currentPosition.current) {
-                        searchWithPosition();
+                        searchWithCoordinates();
                     }
                 };
             },
             zoomstart: () => {
-                setIsZooming(true);
+                setSearchCoordinates(false);
             },
             zoomend: () => {
-                setIsZooming(false);
+                setSearchCoordinates(true);
 
             },
             click: (e) => {
@@ -315,19 +367,10 @@ function IndexMapBlock({ onClose }) {
                 if (e.latlng) {
                     markerRef.current.setLatLng(e.latlng);
                     currentPosition.current = e.latlng;
-                    searchWithPosition();
+                    searchWithCoordinates();
                 }
             }
 
-            /* mouseup(e) {   //определять по IP
-
-                console.log(e)
-                navigator.geolocation.getCurrentPosition(success, error, {
-                    enableHighAccuracy: true
-                });
-
-                setMarkerKey(prev => prev + 1);
-            }, */
         });
         return null;
     };
@@ -467,11 +510,21 @@ function IndexMapBlock({ onClose }) {
                             </MapContainer>
                         </div>
                         {
-                            isVisibleMap &&
+                            
                             <div className="i-m-b-show-result-button-container">
+                                
+                                <div>
+                                {!isVisibleMap && !searchInputVal &&
+                                <button className="i-m-b-show-result-button style-button button-color2" disabled={isLoading} onClick={() => clickFindLocation()}>
+                                    {isLoading ? <div className="spinner-loader show-result-button-spiner"></div> : <h5>Определить автоматически</h5>}
+                                </button>}
+                                </div>
+                                <div>
+                                {isVisibleMap &&
                                 <button className="i-m-b-show-result-button style-button button-color3" disabled={isLoading} onClick={() => clickShowResult()}>
                                     {isLoading ? <div className="spinner-loader show-result-button-spiner"></div> : <h5>Показать больше 1 тыс. объявлений</h5>}
-                                </button>
+                                </button>}
+                                </div>
                             </div>
                         }
 

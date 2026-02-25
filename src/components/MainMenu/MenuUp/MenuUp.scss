@@ -1,4 +1,5 @@
 @import "../../../scss/variables.scss";
+
 .menu-high {
     line-height: 1.5;
     width: inherit;
@@ -11,7 +12,10 @@
     height: 44px;
     font-size: $themeFontSizeS;
     user-select: none;
-    color: #e7e7e7;
+
+    &__text-color {
+        color: #e7e7e7;
+    }
 }
 
 .menu-high-region>li>i {
@@ -21,7 +25,67 @@
 .menu-high-region {
     align-self: center;
     flex-grow: 1;
+
+    &__location {
+        width: max-content;
+        margin-right: auto;
+        margin-left: 0px;
+        position: relative;
+
+
+        &__window {
+            position: absolute;
+            background-color: white;
+            min-width: 180px;
+            border-radius: $borderRadiusS;
+            z-index: 1;
+            top: 30px;
+            padding: 16px 24px;
+            box-shadow: 0px 0px 9px -4px;
+
+            svg {
+                position: absolute;
+                transform: rotate(133deg) translatex(-8px);
+                top: 0;
+            }
+
+            span,
+            button {
+                font-size: $fontSizeSmall;
+            }
+
+
+            &__question {
+                display: flex;
+                flex-direction: column;
+
+                &__buttons {
+                    display: flex;
+                    flex-direction: column;
+
+                    div {
+                        margin-top: 10px;
+
+                        button {
+                            width: 100%;
+                            height: 36px;
+                            align-items: center;
+                            display: flex;
+                            justify-content: space-around;
+                            border-radius: $borderRadiusS;
+                        }
+                    }
+
+                    div:last-child {
+
+                        button {}
+                    }
+                }
+            }
+        }
+    }
 }
+
 .user-header-menu>ul {
     display: flex;
     height: 100%;
@@ -33,6 +97,7 @@
     align-items: center;
     display: flex;
 }
+
 .head-icon>a {
     font-size: 19px !important;
 }
@@ -52,6 +117,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .index-user-menu {
     position: absolute;
     min-width: 260px;
@@ -122,18 +188,43 @@
 .index-u-m-group>ul>li>a {
     margin-right: 5px;
 }
+
 .fav-head>a:hover,
 .message-head>a:hover,
 .name-login>a:hover,
-.menu-high-region>li>a:hover,
 .name-login-index-btn:hover {
     color: #df9e9e;
 }
 
+.menu-high-region {
+    &__location {
+        div {
+            li {
+                a:hover {
+                    color: #df9e9e;
+                }
+
+                a:active {
+                    color: #ff6565;
+                }
+            }
+        }
+    }
+}
+
+.name-login-index-btn {
+    a:hover {
+        color: #df9e9e;
+    }
+
+    a:active {
+        color: #ff6565;
+    }
+}
+
 .fav-head>a:active,
 .message-head>a:active,
-.name-login>a:active,
-.menu-high-region>li>a:active {
+.name-login>a:active {
     color: #ff6565;
 }
 
