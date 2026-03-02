@@ -7,7 +7,7 @@ import debounce from 'lodash.debounce'; //большая библиотека с
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { hystoryToRedux, fetchSearchWhithVal, fetchSearchCordinates, fetchSearchAddressOnClose, statusNull } from '../../Redux/slices/positionSlice';
+import { hystoryToRedux, fetchSearchWhithVal, fetchSearchCordinates, fetchSearchAddressOnClose, statusNull } from '../../../Redux/slices/positionSlice';
 import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie';
 
@@ -262,7 +262,8 @@ function IndexMapBlock({ onClose }) {
     // const error = ({ message }) => {
     //  console.log(message)
     //}
-    const clickFindLocation = () => {//определить автоматически
+    const clickFindLocation = () => {
+        console.log('first')//определить автоматически
         navigator.geolocation.getCurrentPosition((success => {
             const { coords } = success;
             const { latitude, longitude } = coords

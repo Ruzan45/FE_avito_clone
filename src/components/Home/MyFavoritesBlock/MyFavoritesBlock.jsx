@@ -1,4 +1,4 @@
-import '../../scss/indexStickyBlock.scss'
+import '../../../scss/indexStickyBlock.scss'
 
 function MyFavoritesBlock () {
   return (

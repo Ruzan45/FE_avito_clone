@@ -1,4 +1,14 @@
 @import "./variables.scss";
+.mainMenu {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: white;
+    padding-bottom: 4px;
+}
+.indexUserMenu{
+    display: none;
+}
 
 .content {
     display: flex;

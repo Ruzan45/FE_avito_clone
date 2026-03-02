@@ -97,6 +97,7 @@
  }
 
  .lnk-color2 {
+  transition: $oTransition;
    cursor: pointer;
    color: $moduleLinkColor2;
  }
@@ -115,6 +116,17 @@
 
  .lnk-color2:active {
    color: $moduleLinkColorActive;
+ }
+ .lnk-color3 {
+  transition: $oTransition;
+   cursor: pointer;
+   color: #c3c3c3;
+ }
+ .lnk-color3:hover {
+   color: #acacac;
+ }
+ .lnk-color3:active {
+   color: rgb(163, 163, 163);
  }
 
  .d-text {
@@ -341,12 +353,12 @@
  }
 
  h1 {
-   font-size: 48px;
+   font-size: 29px;
  }
 
  h2 {
    font-weight: 700;
-   font-size: 32px;
+   font-size: 26px;
    line-height: 36px;
  }
 

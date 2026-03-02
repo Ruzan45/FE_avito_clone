@@ -3,8 +3,13 @@
 .menuDown {
     display: flex;
     font-size: $themeFontSizeS;
-    margin: 20px auto 0 auto !important;
+    margin: 6px auto 0 auto !important;
     position: relative;
+
+    .city-button{
+        align-self: center;
+        margin-left: 30px;
+    }
 
     .all-catigories-button {
         padding: 1px 21px;
@@ -22,15 +27,10 @@
         }
     }
 
-    .logo {
-        width: 110px;
-        margin-right: 24px;
-    }
-
     .search-block {
         display: flex;
         flex-grow: 1;
-        max-width: 896px;
+        max-width: 930px;
         border: 2px solid $colorTheme;
         border-radius: $borderRadiusS;
 
@@ -73,9 +73,10 @@
                 height: max-content;
 
                 ul {
-                    li:hover{
+                    li:hover {
                         background-color: $colorTheme2Hover;
                     }
+
                     li {
                         a {
                             font-size: 18px;
@@ -91,7 +92,8 @@
 
         .search-button {
             display: inline-flex;
-            button{
+
+            button {
                 padding: 0px 25px;
             }
         }
