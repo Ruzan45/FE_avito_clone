@@ -1,22 +1,12 @@
+import Raiting from "../../Ui/Raiting/Raiting";
+
 function IndexUserMenu () {
   return (
     <div className="index-user-menu">
                 <ul>
                     <div>
                         <a href="" className="lnk-color">
-                            <div className="index-u-m-rating">
-                                <strong>5,0</strong>
-                                <span>
-                                    <ul className="index-u-m-rat-stars">
-                                    <li><img src="/img/icons/star.png" alt="star"/></li>
-                                    <li><img src="/img/icons/star.png" alt="star"/></li>
-                                    <li><img src="/img/icons/star.png" alt="star"/></li>
-                                    <li><img src="/img/icons/star.png" alt="star"/></li>
-                                    <li><img src="/img/icons/star.png" alt="star"/></li>
-                                    </ul>
-                                </span>
-                                <span>3 отзыва</span>
-                            </div>
+                            <Raiting />
                         </a>
                     </div>
                     <div className="index-u-m-group">

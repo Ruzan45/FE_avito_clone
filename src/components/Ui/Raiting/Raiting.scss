@@ -1,0 +1,71 @@
+@import "../../../scss/variables.scss";
+.index-user-menu {
+    position: absolute;
+    min-width: 260px;
+    max-height: calc(100dvh - 44px);
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* display: none; */
+    top: 44px;
+    min-width: 130px;
+    margin-left: -35px;
+    border-top: 1px solid #dcdcdc;
+    box-shadow: 0 5px 17px rgba(0, 0, 0, .15);
+    z-index: 1001;
+    background: #fff;
+    border-radius: $borderRadiusM;
+}
+
+.index-u-m-rating li>img {
+    width: 20px;
+    height: 20px;
+    fill: #ffb600;
+}
+
+.index-u-m-rating {
+    display: flex;
+    margin: 0;
+    padding: 16px;
+    margin: 0 7px;
+}
+
+.index-u-m-rat-stars {
+    display: flex;
+    margin: 0 7px;
+    line-height: 0;
+}
+
+.index-u-m-rat-stars>li:first-child {
+    margin-left: 0;
+}
+
+.index-u-m-rat-stars>li:last-child {
+    margin-right: 0;
+}
+
+.index-u-m-rat-stars>li {
+    margin: 0 2px;
+}
+
+.index-u-m-group {
+    border-top: 1px solid #eee;
+    margin: 0;
+    padding: 16px;
+}
+
+.index-u-m-group>ul>li {
+    display: flex;
+}
+
+.index-u-m-group li:first-child {
+    margin-top: 0;
+}
+
+.index-u-m-group li {
+    margin-top: 6px;
+}
+
+.index-u-m-group>ul>li>a {
+    margin-right: 5px;
+}

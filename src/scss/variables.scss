@@ -1,10 +1,15 @@
+@font-face {
+    font-family: 'Manrope'; /* Название шрифта */
+    src: url('../fonts/Manrope-VariableFont_wght.ttf') format('ttf')
+}
+
 $content-width: 1316px;
 
 $colorTheme: #2aaaff;
 $colorThemeHover: #1582ca;
 $colorThemeActive: #2473a8;
-$colorTheme2: #f2f1f0;
-$colorTheme2Hover: #e9e9e9;
+$colorTheme2: #ebeaea;
+$colorTheme2Hover: #e2dfdf;
 $colorTheme2Active: #d1d1d1;
 $colorTheme3: #000000;
 $colorTheme3Hover: #303030;
@@ -16,7 +21,7 @@ $moduleLinkColorHover: #ff6163;
 $moduleLinkColorActive: #ce383b;
 $themeFontSizeS: 15px;
 $themeFontSizeL: 16px;
-$themeFontFamily: Manrope, Arial, 'Helvetica Neue', Helvetica, 'Arial Rub', sans-serif;
+$themeFontFamily: 'Manrope', sans-serif;
 $fontSizeSmall: 14px;
 $oTransition: 0.1s all;
 $stickyMargin-s: 9px;
